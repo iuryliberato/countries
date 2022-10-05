@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
+import Navbar from "./components/Navbar"
+import Main from "./components/Main"
+import Charts from "./components/Charts"
+import { QueryClient, QueryClientProvider } from 'react-query'
+import 'antd/dist/antd.css'
+
+const queryClient = new QueryClient()
 
 function App() {
+
+  const [page, setPage] = useState('main')
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <QueryClientProvider client={queryClient} contextSharing={true}>
+      <Navbar setPage={setPage} />
+      <div className="counties-content">
+        {page === 'main' ? <Main /> : <Charts />}
+      </div>
+    </QueryClientProvider>
+  )
 }
 
 export default App;
